@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcryptjs");
 
 
 const userScema = new mongoose.Schema({
@@ -13,15 +13,17 @@ const userScema = new mongoose.Schema({
 
 // Encrypt Password Before Save 
 
-userScema.pre("save",async function (next) {
-    if (this.isModified("password")) return next();
-    this.password =  await bcrypt.hash(this.password,10);
-})
+userScema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
 
 // check password and Comare of them 
 
-userScema.methods.correctPassword = async function (candidatePassword,userPassword){
-     return await bcrypt.compare(candidatePassword,userPassword)
-}
+userScema.methods.correctPassword = async function (candidatePassword, userPassword) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
 
 module.exports = mongoose.model("user",userScema);
