@@ -4,7 +4,7 @@
 
 
 #User Signup
-# <p>User Login (with JWT token)</p>
+# User Login (with JWT token)
 # Get user profile (protected route)
 # Forgot password (send reset email with token)
 # Reset password (using token)
